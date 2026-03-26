@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Emma Hwang — Finance Professional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --magenta: #9b2671;
+      --brown: #7c4a1e;
+      --brown-light: #9a6030;
+      --text: #2c2420;
+      --text-muted: #5a4a42;
+      --text-dim: #a89890;
+      --bg: #faf6f0;
+      --card: #ffffff;
+      --border-card: rgba(0,0,0,0.06);
+      --border-brown: rgba(124,74,30,0.18);
+      --gold: rgba(201,169,110,0.18);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 5% 0%, rgba(201,169,110,0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 60% at 95% 100%, rgba(155,38,113,0.04) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 40px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .avatar {
+      flex-shrink: 0;
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px rgba(201,169,110,0.55), 0 8px 24px rgba(124,74,30,0.16);
+    }
+    .avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+    }
+
+    .header-info { flex: 1; min-width: 0; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 5vw, 2.1rem);
+      font-weight: 700;
+      color: #1a0f0a;
+      letter-spacing: -0.3px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+
+    .headline {
+      font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+      font-weight: 500;
+      color: var(--brown);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .contact-link {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+      word-break: break-all;
+    }
+    .contact-link:hover, .contact-link:active { color: var(--brown); }
+    .contact-link svg { flex-shrink: 0; opacity: .7; }
+
+    .tag-row {
+      display: flex; flex-wrap: wrap; gap: 5px;
+    }
+    .tag {
+      font-size: 0.68rem; font-weight: 500;
+      padding: 3px 9px; border-radius: 20px;
+      border: 1px solid rgba(124,74,30,0.2);
+      color: var(--brown);
+      background: rgba(124,74,30,0.06);
+      white-space: nowrap;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,74,30,0.15) 20%, rgba(124,74,30,0.15) 80%, transparent);
+      margin-bottom: 36px;
+    }
+
+    /* ── SECTION ── */
+    section {
+      margin-bottom: 44px;
+      animation: fadeUp .6s ease both;
+    }
+    section:nth-of-type(2) { animation-delay: .08s; }
+    section:nth-of-type(3) { animation-delay: .15s; }
+    section:nth-of-type(4) { animation-delay: .22s; }
+
+    .section-label {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--brown);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 18px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(0,0,0,0.08);
+    }
+
+    /* ── SUMMARY ── */
+    .summary-text {
+      font-size: 0.88rem; font-weight: 400;
+      line-height: 1.8; color: var(--text-muted);
+      border-left: 2px solid var(--magenta);
+      padding-left: 16px;
+    }
+    .skills-inline {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 14px;
+    }
+    .skill-pill {
+      font-size: 0.7rem; font-weight: 500;
+      padding: 4px 11px; border-radius: 4px;
+      background: rgba(155,38,113,0.06);
+      border: 1px solid rgba(155,38,113,0.15);
+      color: var(--magenta);
+    }
+
+    /* ── EXP CARDS ── */
+    .exp-list { display: flex; flex-direction: column; gap: 4px; }
+
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      position: relative;
+      transition: border-color .2s, box-shadow .2s;
+      overflow: hidden;
+    }
+    .exp-card:active {
+      border-color: var(--border-brown);
+      box-shadow: 0 2px 12px rgba(124,74,30,0.08);
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute; left: 0; top: 14px; bottom: 14px;
+      width: 3px; border-radius: 3px;
+      background: linear-gradient(180deg, var(--magenta), transparent);
+      opacity: 0; transition: opacity .2s;
+    }
+    .exp-card:hover::before, .exp-card:focus-within::before { opacity: 1; }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 3px;
+    }
+    .company-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 600;
+      color: #1a0f0a;
+      line-height: 1.3;
+    }
+    .period {
+      font-size: 0.72rem; color: var(--text-dim);
+      white-space: nowrap; padding-top: 2px;
+      flex-shrink: 0;
+    }
+    .role-title {
+      font-size: 0.82rem; font-weight: 500;
+      color: var(--brown); margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    /* toggle */
+    .toggle-btn {
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--text-dim); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px;
+      background: none; border: none; padding: 4px 0;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: color .2s;
+    }
+    .toggle-btn:hover, .toggle-btn:active { color: var(--brown); }
+    .toggle-btn .arrow { transition: transform .25s; display: inline-block; }
+    .toggle-btn.open .arrow { transform: rotate(180deg); }
+
+    .exp-details {
+      display: none;
+      margin-top: 12px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      padding-top: 12px;
+    }
+    .exp-details.open { display: block; }
+
+    .sub-role {
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--brown); margin: 10px 0 6px;
+      display: flex; align-items: flex-start; gap: 7px; flex-wrap: wrap;
+    }
+    .sub-role::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--brown);
+      flex-shrink: 0; margin-top: 4px;
+    }
+    .sub-period-tag {
+      font-size: 0.65rem; font-weight: 400;
+      color: var(--text-dim); padding: 1px 7px;
+      border-radius: 10px; border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .bullet-list li {
+      font-size: 0.78rem; font-weight: 400;
+      line-height: 1.65; color: var(--text-muted);
+      display: flex; gap: 8px;
+    }
+    .bullet-list li::before {
+      content: '–'; color: var(--text-dim);
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    .project-block {
+      background: rgba(201,169,110,0.07);
+      border: 1px solid rgba(201,169,110,0.2);
+      border-radius: 8px; padding: 11px 13px;
+      margin-top: 10px;
+    }
+    .project-title {
+      font-size: 0.76rem; font-weight: 600;
+      color: var(--brown); margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .project-title + .project-title { margin-top: 9px; }
+
+    /* ── HIGHLIGHTS ── */
+    .hl-grid { display: flex; flex-direction: column; gap: 8px; }
+
+    .hl-card {
+      background: var(--card);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 16px 16px 16px 48px;
+      position: relative;
+      transition: border-color .2s;
+    }
+    .hl-card:hover { border-color: rgba(124,74,30,0.2); }
+
+    .hl-num {
+      position: absolute; left: 14px; top: 16px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--magenta), #6b1550);
+      font-size: 0.65rem; font-weight: 700; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hl-title {
+      font-size: 0.86rem; font-weight: 600;
+      color: #1a0f0a; margin-bottom: 4px; line-height: 1.4;
+    }
+    .hl-desc {
+      font-size: 0.78rem; font-weight: 400;
+      color: var(--text-muted); line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      font-size: 0.7rem; color: var(--text-dim);
+      letter-spacing: .06em; padding-top: 8px;
+    }
+
+    /* ── ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── DESKTOP hover polish ── */
+    @media (hover: hover) {
+      .exp-card:hover {
+        border-color: var(--border-brown);
+        transform: translateX(4px);
+        box-shadow: 0 4px 20px rgba(124,74,30,0.07);
+      }
+    }
+
+    /* ── TABLET (600px+) ── */
+    @media (min-width: 600px) {
+      .page { padding: 52px 28px 90px; }
+      .avatar { width: 96px; height: 96px; }
+      .contact-row { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+      .contact-link { word-break: normal; }
+      .exp-card { padding: 20px 22px 18px; }
+    }
+
+    /* ── DESKTOP (768px+) ── */
+    @media (min-width: 768px) {
+      .page { padding: 56px 32px 100px; }
+      .header { gap: 32px; }
+      .avatar { width: 100px; height: 100px; }
+      .exp-card { padding: 22px 26px 20px; }
+      .exp-header { gap: 16px; }
+      .hl-card { padding: 18px 20px 18px 52px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="avatar">
+      <img src="data:image/jpeg;base64,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" alt="Emma Hwang" />
+    </div>
+    <div class="header-info">
+      <h1>Emma Hwang</h1>
+      <div class="headline">Finance Professional &nbsp;·&nbsp; FP&amp;A &nbsp;·&nbsp; OTC &nbsp;·&nbsp; General Accounting</div>
+      <div class="contact-row">
+        <a class="contact-link" href="mailto:emma.hwang0922@gmail.com">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+          emma.hwang0922@gmail.com
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/sjhwang2" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          linkedin.com/in/sjhwang2
+        </a>
+        <span class="contact-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          South Korea
+        </span>
+      </div>
+      <div class="tag-row">
+        <span class="tag">#GeneralAccounting</span>
+        <span class="tag">#Closing</span>
+        <span class="tag">#A/R</span>
+        <span class="tag">#A/P</span>
+        <span class="tag">#OTC</span>
+        <span class="tag">#FP&amp;A</span>
+        <span class="tag">#TacticalProcurement</span>
+        <span class="tag">#T&amp;E</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- SUMMARY -->
+  <section>
+    <div class="section-label">Summary</div>
+    <p class="summary-text">
+      Finance professional with 10+ years of cross-industry experience across FMCG, Healthcare, and Pharma. Proven track record in Order-to-Cash, FP&amp;A, General Accounting (RTR/Closing), and finance transformation. Experienced in leading global migration and process improvement initiatives across Korea, China, and the Philippines.
+    </p>
+    <div class="skills-inline">
+      <span class="skill-pill">Financial Reporting</span>
+      <span class="skill-pill">SAP</span>
+      <span class="skill-pill">OTC / AR</span>
+      <span class="skill-pill">AP / PTP</span>
+      <span class="skill-pill">FP&amp;A</span>
+      <span class="skill-pill">Credit Risk Management</span>
+      <span class="skill-pill">Finance Migration</span>
+      <span class="skill-pill">Internal Controls</span>
+      <span class="skill-pill">Tax &amp; Audit Support</span>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <div class="section-label">Prior Experience</div>
+    <div class="exp-list">
+
+      <!-- BMS -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="company-name">Bristol Myers Squibb</div>
+          <div class="period">2022 — Present</div>
+        </div>
+        <div class="role-title">OTC &amp; FP&amp;A Manager</div>
+        <button class="toggle-btn" onclick="toggleDetail(this)">
+          View details <span class="arrow">▾</span>
+        </button>
+        <div class="exp-details">
+          <ul class="bullet-list">
+            <li>Leading OTC workstream and FP&amp;A function for the Korea business unit</li>
+            <li>Driving process standardisation and compliance within the Order-to-Cash cycle</li>
+            <li>Managing financial planning, budgeting, and performance reporting</li>
+          </ul>
+          <div class="project-block">
+            <div class="project-title">★ LER Project Completion — OTC (BMS-HCLG)</div>
+            <ul class="bullet-list">
+              <li>Successfully achieved full project completion for the LER initiative within the OTC workstream</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAT -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="company-name">British American Tobacco</div>
+          <div class="period">— May 2022</div>
+        </div>
+        <div class="role-title">Assistant Commercial Finance Manager</div>
+        <button class="toggle-btn" onclick="toggleDetail(this)">
+          View details <span class="arrow">▾</span>
+        </button>
+        <div class="exp-details">
+          <ul class="bullet-list">
+            <li>Supported commercial finance function with analysis and business partnering</li>
+            <li>Managed OPEX budgeting and variance reporting across commercial teams</li>
+          </ul>
+          <div class="project-block">
+            <div class="project-title">★ RTM (Route to Market) — Global Project</div>
+            <ul class="bullet-list">
+              <li>Led RTM project as Marketing Finance representative within a global team</li>
+              <li>Drove team reorganisation and optimised OPEX as part of the initiative</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- J&J -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="company-name">Johnson &amp; Johnson</div>
+          <div class="period">Mar 2017 — Oct 2022</div>
+        </div>
+        <div class="role-title">General Accounting (RTR/Closing) &nbsp;/&nbsp; Financial Accountant (AR/OTC)</div>
+        <button class="toggle-btn" onclick="toggleDetail(this)">
+          View details <span class="arrow">▾</span>
+        </button>
+        <div class="exp-details">
+
+          <div class="sub-role">General Accounting — RTR / Closing <span class="sub-period-tag">Dec 2018 – Oct 2022</span></div>
+          <ul class="bullet-list">
+            <li>Prepared financial reports and reviewed journal entry accuracy across Payroll, Revenue, and Inventory cycles</li>
+            <li>Ensured compliance with internal guidelines, external laws &amp; regulations</li>
+            <li>Analysed financial data and prepared accounting statements for internal reporting</li>
+          </ul>
+          <div class="project-block">
+            <div class="project-title">★ New Entity Acquisition — SAP Integration (Global Team)</div>
+            <ul class="bullet-list">
+              <li>Core team member integrating acquired entity covering Revenue, Inventory, and BS Allocation</li>
+            </ul>
+            <div class="project-title">★ Tax &amp; Customs Audit</div>
+            <ul class="bullet-list">
+              <li>Successfully coordinated with external authorities and tax/customs auditors</li>
+            </ul>
+          </div>
+
+          <div class="sub-role">Financial Accountant — AR / OTC <span class="sub-period-tag">Mar 2017 – Nov 2018</span></div>
+          <ul class="bullet-list">
+            <li>Managed credit risk and KPIs (DSO, Past Due, Collateral) to maintain healthy AR aging</li>
+            <li>Set up B/S review process and supporting documentation for BSAR</li>
+            <li>Delivered credit management process training to related functional teams</li>
+          </ul>
+          <div class="project-block">
+            <div class="project-title">★ OTC Migration — Korea → China</div>
+            <ul class="bullet-list">
+              <li>Successfully completed OTC migration project transitioning operations from Korea to China</li>
+            </ul>
+            <div class="project-title">★ PCI Remediation (Vision Care)</div>
+            <ul class="bullet-list">
+              <li>Led AR collection process update to meet global IT privacy payment standards</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Diageo -->
+      <div class="exp-card">
+        <div class="exp-header">
+          <div class="company-name">Diageo</div>
+          <div class="period">Jan 2013 — Feb 2017</div>
+        </div>
+        <div class="role-title">Accounting Specialist &amp; Tactical Procurement · Diageo APAC</div>
+        <button class="toggle-btn" onclick="toggleDetail(this)">
+          View details <span class="arrow">▾</span>
+        </button>
+        <div class="exp-details">
+          <ul class="bullet-list">
+            <li>Managed accounts payable in line with accounting principles and Korean tax rules</li>
+            <li>Ensured accurate SAP recording and assisted month/quarter/year-end close</li>
+            <li>Validated payment vouchers and cash advances for policy and regulatory compliance</li>
+            <li>Compiled financial information to assist the Financial Controller with analysis and reporting</li>
+            <li>Co-worked with departments to maintain internal control standards</li>
+          </ul>
+          <div class="project-block">
+            <div class="project-title">★ PTP Migration — Korea → Philippines</div>
+            <ul class="bullet-list">
+              <li>Completed Purchase-to-Pay migration project from Korea to the Philippines</li>
+            </ul>
+            <div class="project-title">★ STP (Source to Pay) — Global Project</div>
+            <ul class="bullet-list">
+              <li>Successfully launched STP project as a member of a global project team</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section>
+    <div class="section-label">Working Experience Highlights</div>
+    <div class="hl-grid">
+      <div class="hl-card">
+        <div class="hl-num">1</div>
+        <div class="hl-title">LER Project Completion — OTC (BMS-HCLG)</div>
+        <div class="hl-desc">Successfully achieved full completion of the LER Project within the Order-to-Cash workstream at Bristol Myers Squibb.</div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-num">2</div>
+        <div class="hl-title">RTM Global Project — Route to Market Leadership</div>
+        <div class="hl-desc">Led the RTM project as Marketing Finance with a global team. Reorganised teams and optimised OPEX across the initiative at British American Tobacco.</div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-num">3</div>
+        <div class="hl-title">J&amp;J PCI Remediation — Payment Process Modernisation</div>
+        <div class="hl-desc">Led AR collection process update at Johnson &amp; Johnson to meet the global IT privacy payment system standard.</div>
+      </div>
+      <div class="hl-card">
+        <div class="hl-num">4</div>
+        <div class="hl-title">Finance Migration — KR → PH &amp; CN</div>
+        <div class="hl-desc">Successfully completed cross-border finance migrations: OTC from Korea to China (J&amp;J) and PTP from Korea to the Philippines (Diageo).</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Emma Hwang &nbsp;·&nbsp; Finance Professional &nbsp;·&nbsp; South Korea</footer>
+
+</div>
+
+<script>
+  function toggleDetail(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
