@@ -530,16 +530,13 @@
         { headers: { Accept: 'application/vnd.github.v3+json' } }
       );
       const files = await res.json();
+      if (!Array.isArray(files)) throw new Error('API error');
 
       allEntries = files
         .filter(f => f.type === 'file' && f.name.endsWith('.md') && parseDateStr(f.name))
         .map(f => ({ name: f.name, date: parseDateStr(f.name) }))
         .sort((a, b) => b.date.localeCompare(a.date));
 
-      // Prefetch all files in parallel
-      await Promise.all(allEntries.map(fetchAndCache));
-
-      // Jump to latest month
       if (allEntries.length > 0) {
         const d = allEntries[0].date;
         calYear  = +d.slice(0, 4);
@@ -550,6 +547,12 @@
       renderCalendar();
       if (allEntries.length > 0) selectDate(allEntries[0].date);
 
+      // 백그라운드에서 나머지 파일 prefetch (키워드 채우기)
+      Promise.all(allEntries.slice(1).map(fetchAndCache)).then(() => {
+        renderSidebar();
+        renderCalendar();
+      });
+
     } catch (err) {
       document.getElementById('dateList').innerHTML =
         `<li style="padding:8px 10px;font-size:0.75rem;color:var(--text-dim)">목록을 불러올 수 없습니다.</li>`;
@@ -558,13 +561,17 @@
   }
 
   async function fetchAndCache(entry) {
+    if (cache.has(entry.date)) return cache.get(entry.date);
     try {
-      const res = await fetch('./' + encodeURIComponent(entry.name));
-      if (!res.ok) return;
+      const url = `https://raw.githubusercontent.com/${REPO}/main/${FOLDER}/${entry.name}`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
       const raw      = await res.text();
       const keywords = extractKeywords(raw);
-      cache.set(entry.date, { raw, keywords });
-    } catch {}
+      const data = { raw, keywords };
+      cache.set(entry.date, data);
+      return data;
+    } catch { return null; }
   }
 
   // ── Utils ───────────────────────────────────────────
@@ -664,13 +671,16 @@
     renderContent(dateStr);
   }
 
-  function renderContent(dateStr) {
+  async function renderContent(dateStr) {
     const el = document.getElementById('content');
-    const entry = cache.get(dateStr);
+    let entry = cache.get(dateStr);
 
     if (!entry) {
       el.innerHTML = '<div class="loading-msg">불러오는 중…</div>';
-      return;
+      const found = allEntries.find(e => e.date === dateStr);
+      if (!found) return;
+      entry = await fetchAndCache(found);
+      if (!entry || selectedDate !== dateStr) return;
     }
 
     const stripped   = entry.raw.replace(/^---[\s\S]*?---\n?/, '').trim();
